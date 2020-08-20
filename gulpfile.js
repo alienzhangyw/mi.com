@@ -54,24 +54,25 @@ function images() {
 exports.build = series(clean, scss, scripts, html, data, images);
 
 // 监控文件变化
-function watchFiles() {
-    watch('stylesheet/*.scss', scss);
-    watch('scripts/*.js', scripts);
-    watch('html/*.html', html);
-    watch('data/*.json', data);
-    watch('images/**/*', images);
+function watchFiles(done) {
+    watch('stylesheet/*.scss', series(scss));
+    watch('scripts/*.js', series(scripts));
+    watch('html/*.html', series(html));
+    watch('data/*.json', series(data));
+    watch('images/**/*', series(images));
+    done();
 };
 
 // 启动一个服务器
 const connect = require('gulp-connect');
-function server() {
+function server(done) {
     connect.server({
         root: 'dist',
         port: 8000,
         livereload: true
     });
-    connect.serverClose();
+    done();
 }
 
 // 创建默认任务，启动监听和服务器
-exports.default = parallel(watchFiles, server);
+exports.default = parallel(server, watchFiles);
