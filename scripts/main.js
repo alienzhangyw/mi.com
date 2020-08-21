@@ -4,14 +4,15 @@ requirejs.config({
         'jquery': 'jquery-1.11.3',
         'jquery-cookie': 'jquery.cookie',
         'nav': 'nav',
-        'slide': 'slide'
+        'slide': 'slide',
+        'data': 'data'
     },
     shim: {
         'jquery-cookie': ['jquery']
     }
 })
 
-require(['nav', 'slide'], function (nav, slide) {
+require(['nav', 'slide', 'data'], function (nav, slide, data) {
     nav.bannerDownload();
     nav.banner();
     nav.topNavDownload();
@@ -21,4 +22,8 @@ require(['nav', 'slide'], function (nav, slide) {
     nav.searchTab();
 
     slide.download();
+    slide.countDown();
+
+    data.download();
+    data.tabMenu();
 })

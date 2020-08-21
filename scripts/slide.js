@@ -1,3 +1,4 @@
+'use strict';
 define(['jquery'], function ($) {
     // 下载数据
     function download() {
@@ -100,7 +101,57 @@ define(['jquery'], function ($) {
         })
     }
 
+    // 定时器倒计时，每天14:00开枪，每天22:00开枪
+    function countDown(){
+        var nowDate = new Date();
+        var hour = nowDate.getHours();
+        var date = nowDate.getDate();
+        var afterDate = new Date();
+        
+        //计算倒计时时间间隔
+        if(hour < 14){
+            afterDate.setHours(14);
+            $(".flashsale-countdown .round").html("14:00 场");
+            
+        }else if(hour >= 14 && hour < 22){
+            afterDate.setHours(22);
+            $(".flashsale-countdown .round").html("22:00 场");
+        }else{
+            $(".flashsale-countdown .round").html("明日14:00 场");
+            afterDate.setHours(14);
+            afterDate.setDate(date + 1);
+        }
+        afterDate.setMilliseconds(0);
+        afterDate.setSeconds(0);
+        afterDate.setMinutes(0);
+
+        //计算倒计时总秒数
+        var count = parseInt((afterDate.getTime() - nowDate.getTime()) / 1000);
+    
+        var aSpans = $(".flashsale-countdown .countdown").find("span");
+        
+        var timer = setInterval(function(){
+            count--;
+            aSpans.eq(2).html(doubleNum(count % 60));
+            aSpans.eq(1).html(doubleNum(parseInt(count / 60) % 60));
+            aSpans.eq(0).html(doubleNum(parseInt(count / 3600) % 24));
+            if(count == 0){
+                clearInterval(timer);
+                $(".flashsale-countdown .desc").html("本次活动结束,敬请期待~");
+            }
+        }, 1000);
+
+        function doubleNum(num){
+            if(num < 10){
+                return "0" + num;
+            }else{
+                return num;
+            }
+        }
+    }
+
     return {
-        download: download
+        download: download,
+        countDown: countDown
     }
 });
