@@ -1,81 +1,24 @@
 'use strict';
 // 处理首页导航部分
 define(['jquery'], function ($) {
-    function download () {
-        // 数据下载
+    // banner数据下载
+    function bannerDownload () {
         $.ajax({
             type: 'GET',
             url: '../data/nav.json',
             success: function (result) {
                 // banner图加载
                 let bannerArr = result.banner;
-                bannerArr.forEach(banner => {
-                    $(`<a href='${banner.url}'>
-                    <img class='swiper-laze swiper-lazy-loaded' src='../images/banner/${banner.img}' alt=''></a>`)
-                        .appendTo('#J_homeSwiper .swiper-slide');
-                    $(`<a href="#" class = 'swiper-pagination-bullet swiper-pagination-bullet-active'></a>`)
-                        .appendTo('#J_homeSwiper .swiper-pagination');
-                });
-
-                // 加载顶部导航栏
-                let topArr = result.topNav;
-                topArr.push({ title: "服务" }, { title: "社区" });
-                topArr.forEach((tab, i) => {
-                    $(`<li data-index="${i}" class="nav-item">
-                        <a href="javascript: void(0);" class="link">
-                            <span class="text">${tab.title}</span>
+                bannerArr.forEach((banner, i) => {
+                    $(`<div class='swiper-slide'>
+                        <a href='${banner.url}'>
+                            <img class='swiper-laze swiper-lazy-loaded' src='../images/banner/${banner.img}' alt=''>
                         </a>
-                    </li>`).appendTo('.site-header .header-nav .nav-list');
-
-                    let node = $(`<ul class = 'children-list clearfix' style = "display: ${i == 0 ? 'block' : 'none'}"></ul>`);
-                    node.appendTo('#J_navMenu .container');
-                    if (tab.childs) {
-                        let childArr = tab.childs;
-                        for (let j = 0; j < childArr.length; j++) {
-                            $(`<li>
-                                <a href='#'>
-                                    <div class='figure figure-thumb'>
-                                        <img src='${childArr[j].img}' alt=''>
-                                    </div>
-                                    <div class='title'>${childArr[j].a}</div>
-                                    <p class='price'>${childArr[j].i}</p>
-                                </a>
-                            </li>`).appendTo(node);
-                        }
-                        node.find('li:first-of-type').addClass('first');
-                    }
-                });
-
-
-                // 实现侧边导航栏
-                let sideArr = result.sideNav;
-                sideArr.forEach(tab => {
-                    let node = $(`<li class = 'category-item'>
-                        <a href="/index.html" class = 'title'>
-                            ${tab.title}
-                            <em class = 'iconfont-arrow-right-big'></em>
-                        </a>
-                        <div class="children clearfix">
-                        </div>
-                    </li>`);
-                    node.appendTo("#J_navCategory #J_categoryList");
-
-                    //取出其中的子节点
-                    let childArr = tab.child;
-                    let col = Math.ceil(childArr.length / 6);
-                    node.find("div.children").addClass("children-col-" + col);
-                    for (let i = 0, newUl; i < childArr.length; i++) {
-                        if (i % 6 == 0) {
-                            newUl = $(`<ul class="children-list children-list-col children-list-col-${Math.floor(i / 6)}"></ul>`);
-                            newUl.appendTo(node.find("div.children"));
-                        }
-                        $(`<li>
-                            <a href="#" class="link clearfix">
-                                <img src="${childArr[i].img}" width="40" height="40" alt="" class="thumb">
-                                <span class="text">${childArr[i].title}</span>
-                            </a>
-                        </li>`).appendTo(newUl);
-                    }
+                    </div>`
+                    )
+                        .appendTo('#J_homeSwiper');
+                    $(`<a href="#" class = 'swiper-pagination-bullet'></a>`)
+                        .appendTo('#J_homeSwiper .swiper-pagination').addClass(i==0 ? 'swiper-pagination-bullet-active' : '');
                 });
             },
             error: function (msg) {
@@ -98,7 +41,7 @@ define(['jquery'], function ($) {
         // 封装切换函数
         function tab() {
             if (!aImgs) {
-                aImgs = $('#J_homeSwiper .swiper-slide').find('a');
+                aImgs = $('#J_homeSwiper').find('.swiper-slide');
             }
             if (!aBtns) {
                 aBtns = $('#J_homeSwiper .swiper-pagination').find('a');
@@ -107,7 +50,7 @@ define(['jquery'], function ($) {
                 iNow = 0;
             }
             // 图片切换
-            aImgs.hide().css('opacity', 0.2).eq(iNow).show().animate({ opacity: 1 }, 500);
+            aImgs.removeClass('swiper-slide-active').animate({ opacity: 0.2 }, 0).hide().eq(iNow).addClass('swiper-slide-active').show().animate({ opacity: 1 }, 800);
             // 小圆圈切换
             aBtns.removeClass('swiper-pagination-bullet-active').eq(iNow).addClass('swiper-pagination-bullet-active');
         }
@@ -144,6 +87,49 @@ define(['jquery'], function ($) {
 
     }
 
+    // 实现侧边导航栏
+    function leftNavDownload() {
+        $.ajax({
+            type: "GET",
+            url: '../data/nav.json',
+            success: function (result) {
+                let sideArr = result.sideNav;
+        sideArr.forEach(tab => {
+            let node = $(`<li class = 'category-item'>
+                            <a href="/index.html" class = 'title'>
+                                ${tab.title}
+                                <em class = 'iconfont-arrow-right-big'></em>
+                            </a>
+                            <div class="children clearfix">
+                            </div>
+                        </li>`);
+            node.appendTo("#J_navCategory #J_categoryList");
+    
+            //取出其中的子节点
+            let childArr = tab.child;
+            let col = Math.ceil(childArr.length / 6);
+            node.find("div.children").addClass("children-col-" + col);
+            for (let i = 0, newUl; i < childArr.length; i++) {
+                if (i % 6 == 0) {
+                    newUl = $(`<ul class="children-list children-list-col children-list-col-${Math.floor(i / 6)}"></ul>`);
+                    newUl.appendTo(node.find("div.children"));
+                }
+                $(`<li>
+                                <a href="#" class="link clearfix">
+                                    <img src="${childArr[i].img}" width="40" height="40" alt="" class="thumb">
+                                    <span class="text">${childArr[i].title}</span>
+                                </a>
+                            </li>`).appendTo(newUl);
+            }
+        });
+            },
+            error: function (msg) {
+                console.log(msg);
+            }
+        })
+        
+    }
+
     // 侧边导航选项卡切换效果
     function leftNavTab() {
         $('#J_categoryList').on('mouseenter', '.category-item', function () {
@@ -151,6 +137,46 @@ define(['jquery'], function ($) {
         })
         $('#J_categoryList').on('mouseleave', '.category-item', function () {
             $(this).removeClass('category-item-active');
+        })
+    }
+
+    // 加载顶部导航栏
+    function topNavDownload() {
+        $.ajax({
+            type: 'GET',
+            url: '../data/nav.json',
+            success: function (result) {
+                let topArr = result.topNav;
+                topArr.push({ title: "服务" }, { title: "社区" });
+                topArr.forEach((tab, i) => {
+                    $(`<li data-index="${i}" class="nav-item">
+                        <a href="javascript: void(0);" class="link">
+                            <span class="text">${tab.title}</span>
+                        </a>
+                    </li>`).appendTo('.site-header .header-nav .nav-list');
+
+                    let node = $(`<ul class = 'children-list clearfix' style = "display: ${i == 0 ? 'block' : 'none'}"></ul>`);
+                    node.appendTo('#J_navMenu .container');
+                    if (tab.childs) {
+                        let childArr = tab.childs;
+                        for (let j = 0; j < childArr.length; j++) {
+                            $(`<li>
+                                <a href='#'>
+                                    <div class='figure figure-thumb'>
+                                        <img src='${childArr[j].img}' alt=''>
+                                    </div>
+                                    <div class='title'>${childArr[j].a}</div>
+                                    <p class='price'>${childArr[j].i}</p>
+                                </a>
+                            </li>`).appendTo(node);
+                        }
+                        node.find('li:first-of-type').addClass('first');
+                    }
+                });
+            },
+            error: function (msg) {
+                console.log(msg);
+            }
         })
     }
 
@@ -188,10 +214,14 @@ define(['jquery'], function ($) {
     }
 
     return {
-        download: download,
+        bannerDownload: bannerDownload,
         banner: banner,
+        leftNavDownload: leftNavDownload,
         leftNavTab: leftNavTab,
+        topNavDownload: topNavDownload,
         topNavTab: topNavTab,
         searchTab: searchTab,
     }
 });
+
+

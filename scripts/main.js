@@ -11,9 +11,11 @@ requirejs.config({
 })
 
 require(['nav'], function (nav) {
-    nav.download();
+    nav.bannerDownload();
     nav.banner();
+    nav.topNavDownload();
     nav.topNavTab();
+    nav.leftNavDownload();
     nav.leftNavTab();
     nav.searchTab();
 })
