@@ -46,7 +46,7 @@ define(['jquery'], function ($) {
             if (!aBtns) {
                 aBtns = $('#J_homeSwiper .swiper-pagination').find('a');
             }
-            if (iNow == 5) {
+            if (iNow == aBtns.size()) {
                 iNow = 0;
             }
             // 图片切换
@@ -77,7 +77,10 @@ define(['jquery'], function ($) {
             if (this.className == 'swiper-button-prev') {
                 iNow--;
                 if (iNow == -1) {
-                    iNow = 4;
+                    if (!aBtns) {
+                        aBtns = $('#J_homeSwiper .swiper-pagination').find('a');
+                    }
+                    iNow = aBtns.size() - 1;
                 }
             } else {
                 iNow++;
@@ -213,6 +216,18 @@ define(['jquery'], function ($) {
         });
     }
 
+    // 商品列表页侧边导航移入移出
+    function allGoodsTab() {
+        $('.header-nav .nav-list').on('mouseenter', '.nav-category', function () {
+            $(this).addClass('nav-category-active');
+            $(this).find('.site-category').css('display', 'block');
+        })
+        $('.header-nav .nav-list').on('mouseleave', '.nav-category', function () {
+            $(this).removeClass('nav-category-active');
+            $(this).find('.site-category').css('display', 'none');
+        })
+    }
+
     return {
         bannerDownload: bannerDownload,
         banner: banner,
@@ -221,6 +236,7 @@ define(['jquery'], function ($) {
         topNavDownload: topNavDownload,
         topNavTab: topNavTab,
         searchTab: searchTab,
+        allGoodsTab: allGoodsTab
     }
 });
 
