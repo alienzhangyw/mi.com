@@ -99,7 +99,7 @@ define(['jquery'], function ($) {
                 let sideArr = result.sideNav;
         sideArr.forEach(tab => {
             let node = $(`<li class = 'category-item'>
-                            <a href="/index.html" class = 'title'>
+                            <a href="/list.html" class = 'title'>
                                 ${tab.title}
                                 <em class = 'iconfont-arrow-right-big'></em>
                             </a>
@@ -136,10 +136,10 @@ define(['jquery'], function ($) {
     // 侧边导航选项卡切换效果
     function leftNavTab() {
         $('#J_categoryList').on('mouseenter', '.category-item', function () {
-            $(this).addClass('category-item-active');
+            $(this).addClass('category-item-active').siblings('.category-item').removeClass('category-item-active');
         })
-        $('#J_categoryList').on('mouseleave', '.category-item', function () {
-            $(this).removeClass('category-item-active');
+        $('#J_categoryList').on('mouseleave', function () {
+            $(this).find('.category-item').removeClass('category-item-active');
         })
     }
 
@@ -158,7 +158,7 @@ define(['jquery'], function ($) {
                         </a>
                     </li>`).appendTo('.site-header .header-nav .nav-list');
 
-                    let node = $(`<ul class = 'children-list clearfix' style = "display: ${i == 0 ? 'block' : 'none'}"></ul>`);
+                    let node = $(`<ul class = 'children-list clearfix' style = "display: none"></ul>`);
                     node.appendTo('#J_navMenu .container');
                     if (tab.childs) {
                         let childArr = tab.childs;

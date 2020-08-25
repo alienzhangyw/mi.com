@@ -111,7 +111,7 @@ define(['jquery'], function ($) {
                 aBtns.eq(0).addClass('swiper-pagination-bullet-active');
             }
             oDiv.animate({ left: -oDiv.width() * iNow }, 1000, function () {
-                if (iNow == aBtns.size()) {
+                if (iNow >= aBtns.size()) {
                     iNow = 0;
                     oDiv.css('left', 0);
                 }
