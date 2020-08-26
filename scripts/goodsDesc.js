@@ -184,7 +184,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
                     let id = this.id;
                     let first = $.cookie('cart') == null ? true : false;
                     if (first) {
-                        let cart = { [id]: 0 };
+                        let cart = { [id]: 1 };
                         $.cookie('cart', JSON.stringify(cart), { expires: 7 });
                     } else {
                         let cart = JSON.parse($.cookie('cart'));
@@ -261,9 +261,9 @@ define(['jquery', 'jquery-cookie'], function ($) {
                 if (iNow == aImgs.size()) {
                     iNow = 0;
                 }
+                aBtns.removeClass('active').eq(iNow).addClass('active');
+                aImgs.hide().eq(iNow).show();
             }
-            aBtns.removeClass('active').eq(iNow).addClass('active');
-            aImgs.hide().eq(iNow).show();
         }
     }
 
