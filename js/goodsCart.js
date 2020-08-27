@@ -5,7 +5,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
         // 加载推荐商品
         $.ajax({
             type: 'GET',
-            url: '../data/goodsCarList.json',
+            url: './data/goodsCarList.json',
             success: function (result) {
                 let arr = result.data;
                 arr.forEach(item => {
@@ -76,7 +76,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
         new Promise((resolve, reject) => {
             $.ajax({
                 type: 'GET',
-                url: '../data/goodsCarList.json',
+                url: './data/goodsCarList.json',
                 success: function (result) {
                     resolve(result.data);
                 },
@@ -88,7 +88,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     type: 'GET',
-                    url: '../data/goodsList2.json',
+                    url: './data/goodsList2.json',
                     success: function (result) {
                         // 两份数据合并
                         let newArr = arr1.concat(result);
@@ -195,7 +195,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
         let total = 0; // 商品总价
         let count = 0; // 被选中的数量
         let totalCount = 0; // 所有商品的总数
-        allChecks.each((index,item) => {
+        allChecks.each((index, item) => {
             if (!$(item).find('.J_itemCheckbox').hasClass('icon-checkbox-selected')) {
                 isAll = false;
             } else {

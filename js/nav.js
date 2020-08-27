@@ -2,10 +2,10 @@
 // 处理首页导航部分
 define(['jquery'], function ($) {
     // banner数据下载
-    function bannerDownload () {
+    function bannerDownload() {
         $.ajax({
             type: 'GET',
-            url: '../data/nav.json',
+            url: './data/nav.json',
             success: function (result) {
                 // banner图加载
                 let bannerArr = result.banner;
@@ -18,7 +18,7 @@ define(['jquery'], function ($) {
                     )
                         .appendTo('#J_homeSwiper');
                     $(`<a href="#" class = 'swiper-pagination-bullet'></a>`)
-                        .appendTo('#J_homeSwiper .swiper-pagination').addClass(i==0 ? 'swiper-pagination-bullet-active' : '');
+                        .appendTo('#J_homeSwiper .swiper-pagination').addClass(i == 0 ? 'swiper-pagination-bullet-active' : '');
                 });
             },
             error: function (msg) {
@@ -94,43 +94,43 @@ define(['jquery'], function ($) {
     function leftNavDownload() {
         $.ajax({
             type: "GET",
-            url: '../data/nav.json',
+            url: './data/nav.json',
             success: function (result) {
                 let sideArr = result.sideNav;
-        sideArr.forEach(tab => {
-            let node = $(`<li class = 'category-item'>
-                            <a href="/list.html" class = 'title'>
+                sideArr.forEach(tab => {
+                    let node = $(`<li class = 'category-item'>
+                            <a href="./list.html" class = 'title'>
                                 ${tab.title}
                                 <em class = 'iconfont-arrow-right-big'></em>
                             </a>
                             <div class="children clearfix">
                             </div>
                         </li>`);
-            node.appendTo("#J_navCategory #J_categoryList");
-    
-            //取出其中的子节点
-            let childArr = tab.child;
-            let col = Math.ceil(childArr.length / 6);
-            node.find("div.children").addClass("children-col-" + col);
-            for (let i = 0, newUl; i < childArr.length; i++) {
-                if (i % 6 == 0) {
-                    newUl = $(`<ul class="children-list children-list-col children-list-col-${Math.floor(i / 6)}"></ul>`);
-                    newUl.appendTo(node.find("div.children"));
-                }
-                $(`<li>
+                    node.appendTo("#J_navCategory #J_categoryList");
+
+                    //取出其中的子节点
+                    let childArr = tab.child;
+                    let col = Math.ceil(childArr.length / 6);
+                    node.find("div.children").addClass("children-col-" + col);
+                    for (let i = 0, newUl; i < childArr.length; i++) {
+                        if (i % 6 == 0) {
+                            newUl = $(`<ul class="children-list children-list-col children-list-col-${Math.floor(i / 6)}"></ul>`);
+                            newUl.appendTo(node.find("div.children"));
+                        }
+                        $(`<li>
                                 <a href="#" class="link clearfix">
                                     <img src="${childArr[i].img}" width="40" height="40" alt="" class="thumb">
                                     <span class="text">${childArr[i].title}</span>
                                 </a>
                             </li>`).appendTo(newUl);
-            }
-        });
+                    }
+                });
             },
             error: function (msg) {
                 console.log(msg);
             }
         })
-        
+
     }
 
     // 侧边导航选项卡切换效果
@@ -147,7 +147,7 @@ define(['jquery'], function ($) {
     function topNavDownload() {
         $.ajax({
             type: 'GET',
-            url: '../data/nav.json',
+            url: './data/nav.json',
             success: function (result) {
                 let topArr = result.topNav;
                 topArr.push({ title: "服务" }, { title: "社区" });
