@@ -4,6 +4,7 @@ const sass = require('gulp-sass');
 const cleanCSS = require('gulp-clean-css');
 const rename = require('gulp-rename');
 const del = require('del');
+const connect = require('gulp-connect');
 
 // 清空dist文件夹
 function clean() {
@@ -50,8 +51,15 @@ function images() {
         .pipe(connect.reload());
 }
 
+// 处理php脚本
+function php() {
+    return src('php/*.php')
+        .pipe(dest('dist/php'))
+        .pipe(connect.reload());
+}
+
 // 执行所有任务
-exports.build = series(clean, scss, scripts, html, data, images);
+exports.build = series(clean, scss, scripts, html, data, images, php);
 
 // 监控文件变化
 function watchFiles(done) {
@@ -60,11 +68,11 @@ function watchFiles(done) {
     watch('html/*.html', series(html));
     watch('data/*.json', series(data));
     watch('images/**/*', series(images));
+    watch('php/*.php', series(php));
     done();
 };
 
 // 启动一个服务器
-const connect = require('gulp-connect');
 function server(done) {
     connect.server({
         root: 'dist',
