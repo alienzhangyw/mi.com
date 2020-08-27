@@ -26,3 +26,5 @@ yarn gulp build
 
 
 https://alienzhangyw.github.io/mi.com/
+
+国内请访问 http://alienzhangyw.gitee.io/mi.com
