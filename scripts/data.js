@@ -5,7 +5,7 @@ define(['jquery'], function ($) {
     function download() {
         $.ajax({
             type: 'GET',
-            url: '../data/data.json',
+            url: './data/data.json',
             success: function (result) {
                 // 第一块
                 let firstData = result[0];

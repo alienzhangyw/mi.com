@@ -20,7 +20,7 @@ define(['jquery'], function ($) {
                         $('.err_tip').find('em').attr('class', 'icon_select icon_true');
                         $('.err_tip').find('span').css('color', 'green');
                         setTimeout(function () {
-                            location.assign('login.html');
+                            location.assign('./login.html');
                         }, 1000);
                     }
                     $('.err_tip').show().find('span').html(obj.message);

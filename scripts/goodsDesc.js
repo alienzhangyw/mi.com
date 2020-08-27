@@ -23,7 +23,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
 
         $.ajax({
             type: 'GET',
-            url: '../data/goodsList.json',
+            url: './data/goodsList.json',
             success: function (result) {
                 let goodsMsg = result.find(item => item.product_id == product_id);
                 let node = $(`
@@ -141,7 +141,7 @@ define(['jquery', 'jquery-cookie'], function ($) {
                                                 <a href="#" class="btn btn-primary btn-biglarge J_login" id = "${goodsMsg.product_id}">加入购物车</a>  
                                             </li>   
                                             <li>  
-                                                <a href="goodsCar.html" class="btn-gray btn-like btn-biglarge"> 
+                                                <a href="./goodsCar.html" class="btn-gray btn-like btn-biglarge"> 
                                                     <i class="iconfont default"></i>查看购物车 
                                                 </a>  
                                             </li>
