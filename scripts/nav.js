@@ -12,7 +12,7 @@ define(['jquery'], function ($) {
                 bannerArr.forEach((banner, i) => {
                     $(`<div class='swiper-slide'>
                         <a href='${banner.url}'>
-                            <img class='swiper-laze swiper-lazy-loaded' src='../images/banner/${banner.img}' alt=''>
+                            <img class='swiper-laze swiper-lazy-loaded' src='./images/banner/${banner.img}' alt=''>
                         </a>
                     </div>`
                     )
